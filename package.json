@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "git+https://github.com/drortirosh/run-with-hardhat-node.git",
+  "repository": "git+https://github.com/opengsn/run-with-hardhat-node.git",
   "keywords": [
     "ethereum",
     "hardhat",
@@ -13,15 +13,15 @@
     "utility"
   ],
   "original-author": "Alan Lu <alan@gnosis.pm>",
-  "author": "Dror Tirosh <drortirosh@gmail.com>",
+  "author": "Dror Tirosh <dror@opengsn.com>",
   "bin": {
     "run-with-hardhat-node": "./bin/run-with-hardhat-node.js"
   },
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/drortirosh/run-with-hardhat-node/issues"
+    "url": "https://github.com/opengsn/run-with-hardhat-node/issues"
   },
-  "homepage": "https://github.com/drortirosh/run-with-hardhat-node#readme",
+  "homepage": "https://github.com/opengsn/run-with-hardhat-node#readme",
   "dependencies": {
     "colors": "^1.4.0"
   },
