@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const { spawn, execSync } = require('child_process');
 const { basename } = require('path')
+const { runWithCmd } = require('..')
 require('colors')
 
 const ownName = basename(process.argv[1])
@@ -13,7 +13,7 @@ if(process.argv.length < 3) {
 cmd - a single file executable. better not be a shell script, otherwise, might leave orphan
   processes if stopped.
 waitstring - a string to wait to indicate the node is up.
-sub - subcommand. the first param to pass (defaults to "node")
+sub - subcommand. the first param to pass (defaults to "node"). only for default "cmd"
 options - more options to pass to "hardhat node"
 
 inner-cmd - the inner command to run. wrap in quotes to run several commands.
@@ -46,9 +46,9 @@ let cmdCmd = 'hardhat'
 let cmdSub = 'node'
 let cmdWaitString = 'Started HTTP'
 while (true) {
-    console.log('args=', cmdArgs)
    if ( getArg('--cmd') ) {
       cmdCmd = arg
+      cmdSub = null
    } else
    if ( getArg('--sub') ) {
       cmdSub = arg
@@ -65,52 +65,15 @@ while (true) {
 
 const innerCmd = process.argv[process.argv.length - 1]
 
-const cmdLine = [ cmdSub, ...cmdArgs ]
-let testrpc
-if ( cmdVerbose) {
-    console.log({innerCmd, cmdCmd, cmdLine, cmdArgs})
+if ( cmdSub ) {
+  cmdArgs.unshift(cmdSub)
 }
-new Promise((resolve, reject) => {
-    const handleError = (err) => {
-        if(err.code === 'ENOENT')
-            return reject(new Error(`Could not find ${cmdCmd}`))
-        if(err.code === 'EACCES')
-            return reject(new Error(`Need permission to execute ${cmdCmd}`))
-        return reject(err)
-    }
 
-    try {
-        testrpc = spawn(cmdCmd, cmdLine)
-    } catch(err) {
-        return handleError(err)
-    }
 
-    testrpc.stdout.on('data', (data) => {
-        if (cmdVerbose) { process.stdout.write(data) }
-        if(data.includes(cmdWaitString)) {
-            resolve()
-        }
-    })
-
-    let error = ''
-
-    testrpc.stderr.on('data', (data) => {
-        if (cmdVerbose) { process.stderr.write(data) }
-        error += data
-    })
-
-    testrpc.on('error', handleError)
-
-    testrpc.on('close', (code) =>
-        reject(new Error(`${cmdCmd} exited early with code ${code}`))
-    )
-}).then(() => {
-    execSync(innerCmd, { stdio: 'inherit' })
-}).then(() => {
-    testrpc.kill()
+runWithCmd({cmd: cmdCmd, args: cmdArgs, waitFor: cmdWaitString, innerCmd: innerCmd, verbose: cmdVerbose})
+.then(() => {
     process.exit()
 }).catch((err) => {
-    if(testrpc) testrpc.kill()
     console.error(`\n  ${err.message.red}\n`)
     process.exit(1)
 })
