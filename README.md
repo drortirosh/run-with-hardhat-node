@@ -1,14 +1,14 @@
-# run-with-testrpc
-Runs commands with TestRPC in the background. Install with:
+# run-with-hardhat-node
+Runs commands with "Hatdhat node" in the background. Install with:
 
 ```
-npm i --save-dev run-with-testrpc
+npm i --save-dev run-with-hardhat-node
 ```
 
 Basic usage example:
 
 ```
-./node_modules/.bin/run-with-testrpc 'truffle test'
+npx run-with-hardhat-node 'truffle test'
 ```
 
 Note that the command is one shell argument.
@@ -17,5 +17,10 @@ Note that the command is one shell argument.
 You can run a TestRPC sc fork instance using 32 addresses with:
 
 ```
-./node_modules/.bin/run-with-testrpc --testrpc-cmd testrpc-sc -a 32 'truffle migrate && truffle test'
+npx run-with-hardhat-node --cmd testrpc-sc --sub '' -a 32 'truffle migrate && truffle test'
 ```
+
+cmd - defaults to 'hardhat'
+sub - defaults to 'node'
+wait - defaults to 'Started HTTP'
+

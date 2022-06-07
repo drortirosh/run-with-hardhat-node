@@ -1,30 +1,32 @@
 {
-  "name": "run-with-testrpc",
-  "version": "0.3.1",
-  "description": "Runs commands with TestRPC",
+  "name": "run-with-hardhat-node",
+  "version": "0.4.0",
+  "description": "Runs commands with Hardhat node in the background",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gnosis/run-with-testrpc.git"
-  },
+  "repository": "git+https://github.com/drortirosh/run-with-hardhat-node.git",
   "keywords": [
     "ethereum",
+    "hardhat",
     "testrpc",
     "utility"
   ],
-  "author": "Alan Lu <alan@gnosis.pm>",
+  "original-author": "Alan Lu <alan@gnosis.pm>",
+  "author": "Dror Tirosh <drortirosh@gmail.com>",
   "bin": {
-    "run-with-testrpc": "./bin/run-with-testrpc.js"
+    "run-with-hardhat-node": "./bin/run-with-hardhat-node.js"
   },
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/gnosis/run-with-testrpc/issues"
+    "url": "https://github.com/drortirosh/run-with-hardhat-node/issues"
   },
-  "homepage": "https://github.com/gnosis/run-with-testrpc#readme",
+  "homepage": "https://github.com/drortirosh/run-with-hardhat-node#readme",
   "dependencies": {
-    "colors": "^1.1.2",
-    "ganache-cli": "^6.4.2"
-  }
+    "colors": "^1.4.0"
+  },
+  "peerDependencies": {
+    "hardhat": ">2.0.0"
+  },
+  "main": "index.js"
 }
