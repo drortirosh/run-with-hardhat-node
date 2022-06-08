@@ -1,6 +1,6 @@
 {
   "name": "run-with-hardhat-node",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Runs commands with Hardhat node in the background",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
