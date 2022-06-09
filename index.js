@@ -1,4 +1,5 @@
 const { spawn, execSync } = require('child_process');
+const onExit = require('signal-exit')
 
 /**
  * launch command, and wait for it to start.
@@ -6,7 +7,7 @@ const { spawn, execSync } = require('child_process');
  * @param args
  * @param waitFor
  * @param verbose
- * @returns the started process.
+ * @returns the started ChildProcess
  */
 async function waitForCmdToStart({cmd, args, waitFor, verbose}) {
     let testrpc
@@ -54,7 +55,8 @@ async function waitForCmdToStart({cmd, args, waitFor, verbose}) {
         testrpc.on('close', (code) =>
             reject(new Error(`${cmd} exited early with code ${code}`))
         )
-    }) 
+    })
+    return testrpc
 }
 /**
  * 
@@ -68,11 +70,22 @@ async function waitForCmdToStart({cmd, args, waitFor, verbose}) {
 async function runWithCmd({ cmd, args, waitFor, innerCmd, verbose }) {
 
     let testrpc
+
+    //catch process abort with signals (which bypasses the "finally", below)
+    onExit(()=>{
+        if (testrpc) {
+            testrpc.kill()
+        }
+    })
+
     try {
         testrpc = await waitForCmdToStart({cmd, args, waitFor, verbose})
         execSync(innerCmd, { stdio: 'inherit' })
     } finally {
-        if(testrpc) testrpc.kill()
+        if(testrpc) {
+            testrpc.kill()
+    	    testrpc = null
+        }
     }
 }
 

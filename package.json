@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/opengsn/run-with-hardhat-node#readme",
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "signal-exit": "^3.0.7"
   },
   "peerDependencies": {
     "hardhat": ">2.0.0"
